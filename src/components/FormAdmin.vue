@@ -19,6 +19,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 export default {
   name: 'FormAdmin',
   data() {
@@ -29,14 +30,27 @@ export default {
   },
   methods: {
       handleClick() {
-        if(this.username != 'admin' || this.password != '123') {
-            alert('Error')
-        }
-        else {
-            alert('Success');
-            localStorage.setItem("user", "admin");
-            this.$router.push('manager') 
-        }
+        var userItem = {
+            email: this.username,
+            password: this.password 
+        };
+        axios.post('https://shielded-lowlands-59603.herokuapp.com/users/login', JSON.stringify(userItem),{
+            headers: {
+                'Content-Type': 'application/json',
+                'Access-Control-Allow-Origin': '*',
+                'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers': 'Authorization'
+            },
+            crossOrigin: false,
+            mode: 'no-cors'
+            })
+            .then(response => {
+                alert('Success');
+                localStorage.setItem("user", "admin");
+                this.$router.push('manager')        
+            }).catch(err => {
+                alert(err.response.data.message);
+            });
       }
   }
 }      

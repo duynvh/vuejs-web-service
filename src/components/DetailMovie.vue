@@ -50,9 +50,9 @@
 export default {
     name: 'DetailMovie',
     props: ['movie'],
-    data() {
-        return {
-            url_youtube: "https://www.youtube.com/embed/" + this.movie.youtube
+    computed: {
+        url_youtube : function() {
+           return "https://www.youtube.com/embed/" + this.movie.youtube
         }
     }
 }
